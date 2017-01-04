@@ -77,11 +77,7 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="YrY-FE-gNQ"/>
-                                    <barButtonItem title="New Collection" id="Emf-ZO-Fnc" userLabel="New Collection">
-                                        <connections>
-                                            <action selector="tapToolButton:" destination="dM2-v4-dip" id="yWD-sI-IeY"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <barButtonItem title="New Collection" id="Emf-ZO-Fnc" userLabel="New Collection"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="gK0-Wj-WWH"/>
                                 </items>
                             </toolbar>
@@ -101,7 +97,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Photocell" id="Xbn-uU-aS2" customClass="Photocell" customModule="VirtualTourist" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Photocell" id="Xbn-uU-aS2" customClass="PhotoViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="99" height="99"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -125,8 +121,8 @@
                                             <constraint firstItem="47Y-iN-saK" firstAttribute="centerX" secondItem="fdN-KZ-uPb" secondAttribute="centerX" id="wGP-Zi-cO7"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="activityIndicator" destination="47Y-iN-saK" id="Mas-Vc-vql"/>
-                                            <outlet property="imageView" destination="fdN-KZ-uPb" id="ftu-cR-I6s"/>
+                                            <outlet property="activityIndicator" destination="47Y-iN-saK" id="q4b-Z7-Scy"/>
+                                            <outlet property="imageView" destination="fdN-KZ-uPb" id="63m-dY-1xd"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -148,10 +144,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Photo Album" id="hqK-o4-OoG"/>
                     <connections>
-                        <outlet property="ToolButton" destination="Emf-ZO-Fnc" id="V76-r6-KNQ"/>
-                        <outlet property="collectionView" destination="0KJ-kL-gqt" id="f2Z-cf-E4F"/>
-                        <outlet property="collectionViewFlowLayout" destination="K35-yg-uP8" id="uxC-of-JgC"/>
-                        <outlet property="mapView" destination="kqF-ez-Jbh" id="r7J-ON-sJr"/>
+                        <outlet property="collectionView" destination="0KJ-kL-gqt" id="MKW-gA-xeA"/>
+                        <outlet property="collectionViewFlowLayout" destination="K35-yg-uP8" id="LlL-K3-CCw"/>
+                        <outlet property="mapView" destination="kqF-ez-Jbh" id="FyG-LU-mBh"/>
+                        <outlet property="newCollectionButton" destination="Emf-ZO-Fnc" id="guB-zp-kRc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0p-SK-BLD" userLabel="First Responder" sceneMemberID="firstResponder"/>

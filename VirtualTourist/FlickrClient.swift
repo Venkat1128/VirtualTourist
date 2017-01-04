@@ -102,6 +102,7 @@ class FlickerClient{
         }
         task.resume()
     }
+    
     //MARK:- Download photos based on the provided photo URL.
     func downloadPhotos(photoURL:String, completionHandlerForDownloadPhotos: @escaping (_ image: NSData?, _ error: NSError?) -> Void)
     {
