@@ -18,7 +18,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
-    //MARK:- Variable declaration Intilaization 
+    //MARK:- Variable declaration Intilaization
     let flickrClient = FlickerClient.sharedInstance()
     let stack = CoreDataStack.sharedInstance()
     
@@ -54,15 +54,9 @@ class PhotoAlbumViewController: UIViewController {
         initializeFlowLayout()
         if fetchPhotos().isEmpty
         {
-            searchNSavePhotos()
+            searchAndSaveFlickrPhotos()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // Initialize the CollectionView and FlowLayout
     func initializeFlowLayout()
     {
@@ -78,13 +72,25 @@ class PhotoAlbumViewController: UIViewController {
         collectionViewFlowLayout.minimumLineSpacing = space
         collectionViewFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
     }
-
+    @IBAction func tapToolBarButton(_ sender: Any)
+    {
+        if selectedPhotos.isEmpty
+        {
+            deleteAllPhotos()
+            searchAndSaveFlickrPhotos()
+        }
+        else
+        {
+            deleteSelectedPhotos()
+        }
+    }
 }
 //MARK:- Handle core data operations
 extension PhotoAlbumViewController{
     //Search New Photos
-    func searchNSavePhotos()
+    func searchAndSaveFlickrPhotos()
     {
+        self.newCollectionButton.isEnabled = false;
         flickrClient.searchPhotosFromFlickr(latitude: pin.latitude, longitude: pin.longitude){ (photoURLs, error) in
             
             guard photoURLs != nil else
@@ -102,6 +108,7 @@ extension PhotoAlbumViewController{
                         photo.url = url
                     }
                     self.stack.saveContext()
+                    self.newCollectionButton.isEnabled = true
             }
         }
     }
@@ -232,7 +239,7 @@ extension PhotoAlbumViewController:UICollectionViewDataSource
         return cell
     }
 }
-
+//MARK:- NSFetchedResultsControllerDelegate
 extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate
 {
     func fetchPhotos() -> [Photos]

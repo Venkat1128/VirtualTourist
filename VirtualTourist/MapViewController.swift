@@ -22,6 +22,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
     override func viewDidLoad() {
         super.viewDidLoad()
         mapview.delegate = self;
+        addGestureRecognizer()
+        loadPinsFromDatabase()
         // Do any additional setup after loading the view.
     }
 
@@ -146,8 +148,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
                 return
             }
             
-            //let photosVC = segue.destination as! PhotoAlbumViewController
-           // photosVC.pin = Converter.toPin(sender as! MKAnnotation, pin)
+            let photosVC = segue.destination as! PhotoAlbumViewController
+            photosVC.pin = FlickrUtil.toPin(sender as! MKAnnotation, pin)
         }
     }
     
