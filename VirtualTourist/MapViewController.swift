@@ -11,8 +11,12 @@ import MapKit
 import CoreData
 //MARK:- showAlbum
 class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerDelegate {
+    @IBOutlet weak var editButton: UIBarButtonItem!
 
     @IBOutlet weak var mapview: MKMapView!
+    var checkPinEdit: Bool = false
+    var pins = [Pin]()
+    var selectedPin: Pin? = nil
     //MARK:- Variables
     let stack = CoreDataStack.sharedInstance()
     var centerCoordinate: CLLocationCoordinate2D?
@@ -34,7 +38,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
     //MARK:- Add Getusre recornizer to Mapview to dectect hold and drop
     func addGestureRecognizer(){
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.addPinAnnotationToMap(gestureRecognizer:)))
-        lpgr.minimumPressDuration = 0.5   // half-second hold for  pin creation
+        lpgr.minimumPressDuration = 0.5
         lpgr.delegate = self
         self.mapview.addGestureRecognizer(lpgr)
     }
@@ -61,7 +65,19 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
             stack.saveContext()
         }
     }
-    
+    //MARK:- Edit Pins
+   
+    @IBAction func editPinsAction(_ sender: Any) {
+        if checkPinEdit {
+            checkPinEdit = false
+            editButton.title = "Edit"
+            view.frame.origin.y +=  CGFloat(44.0)
+        }else {
+            checkPinEdit = true
+            navigationItem.rightBarButtonItem?.title = "Done"
+            view.frame.origin.y -=  CGFloat(44.0)
+        }
+    }
     //MARK:- Mapview delegate methods
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
@@ -84,17 +100,44 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView)
     {
-        let annotation = view.annotation
-        mapview.selectAnnotation(annotation!, animated: false)
-        performSegue(withIdentifier: "showAlbum", sender: annotation )
         
-        //Deselect the annotation here so that it's again selectable when we return from the album view:
-        mapView.deselectAnnotation(annotation, animated: true)
+        guard let annotation = view.annotation else { /* no annotation */ return }
+        if checkPinEdit {
+            mapView.deselectAnnotation(annotation, animated: true)
+            let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+            do {
+                //go get the results
+                let searchResults = try stack.persistentContainer.viewContext.fetch(fetchRequest)
+                for pin in searchResults {
+                    if annotation.coordinate.latitude == pin.latitude && annotation.coordinate.longitude == pin.longitude {
+                        
+                        selectedPin = pin
+                        print("Deleting pin - verify core data is deleting as well")
+                        stack.persistentContainer.viewContext.delete(selectedPin!)
+                        
+                        // Deleting selected pin on map
+                        mapView.removeAnnotation(annotation)
+                        
+                        // Save the chanages to core data
+                        stack.saveContext()
+                    }
+                }
+            } catch {
+                print("Error with request: \(error)")
+            }
+            
+        } else {
+            mapview.selectAnnotation(annotation, animated: false)
+            performSegue(withIdentifier: "showAlbum", sender: annotation )
+            
+            //Deselect the annotation here so that it's again selectable when we return from the album view:
+            mapView.deselectAnnotation(annotation, animated: true)
+        }
+       
     }
     //MARK:- FetchPinsFromData
     func loadPinsFromDatabase()
     {
-        var pins = [Pin]()
         var annotations = [MKAnnotation]()
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         do
@@ -152,10 +195,5 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
             photosVC.pin = FlickrUtil.toPin(sender as! MKAnnotation, pin)
         }
     }
-    @IBOutlet weak var deletePinView: UILabel!
-    @IBAction func editPins(_ sender: Any) {
-        //deletePinView
-    }
-    
 
 }

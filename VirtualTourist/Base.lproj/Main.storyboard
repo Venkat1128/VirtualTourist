@@ -24,7 +24,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="H2I-0Y-if7">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hp7-t6-LQd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hp7-t6-LQd">
                                 <rect key="frame" x="0.0" y="667" width="375" height="44"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -47,13 +47,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="3Ts-PO-16k">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="WE5-Uj-waH">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Jvp-rU-Ug1">
                             <connections>
-                                <action selector="editPins:" destination="MTR-2f-1eI" id="UE7-wq-b66"/>
+                                <action selector="editPinsAction:" destination="MTR-2f-1eI" id="3ze-1Y-qnb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="Jvp-rU-Ug1" id="rM3-Ea-RzS"/>
                         <outlet property="mapview" destination="H2I-0Y-if7" id="ZzV-pA-of0"/>
                         <segue destination="dM2-v4-dip" kind="show" identifier="showAlbum" id="i1D-dw-Vc0"/>
                     </connections>
