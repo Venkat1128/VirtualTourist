@@ -11,7 +11,7 @@ import MapKit
 import CoreData
 //MARK:- PhotoAlbumViewController: UIViewController
 class PhotoAlbumViewController: UIViewController {
-
+    
     //MARK:- Outlet parameters
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
@@ -39,7 +39,7 @@ class PhotoAlbumViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.navigationController!.navigationBar.topItem!.backBarButtonItem = UIBarButtonItem(title: "OK",style:.plain,target: nil,action: nil)
         
@@ -140,7 +140,7 @@ extension PhotoAlbumViewController{
         stack.saveContext()
         selectedPhotos = []
     }
-
+    
 }
 // MARK: - MKMapViewDelegate
 extension PhotoAlbumViewController: MKMapViewDelegate
@@ -195,16 +195,18 @@ extension PhotoAlbumViewController:UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
+        
         //Get the Collection Cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Photocell", for: indexPath) as! PhotoViewCell
-        
         //Get the Photo Image saved in the DB.
         let pic = fetchedResultsController.object(at: indexPath) as! Photos
         
         // If there is not pic in Core data, issue the download.
         if pic.image == nil
         {
-            cell.activityIndicator.startAnimating()
+            DispatchQueue.main.async {
+                cell.activityIndicator.startAnimating()
+            }
             
             //Download photos from Flickr API.
             flickrClient.downloadPhotos(photoURL: pic.url!){ (image, error)  in

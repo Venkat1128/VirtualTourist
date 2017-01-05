@@ -30,11 +30,6 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
         loadPinsFromDatabase()
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     //MARK:- Add Getusre recornizer to Mapview to dectect hold and drop
     func addGestureRecognizer(){
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.addPinAnnotationToMap(gestureRecognizer:)))
@@ -127,7 +122,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
             }
             
         } else {
-            mapview.selectAnnotation(annotation, animated: false)
+            mapview.selectAnnotation(annotation, animated: true)
             performSegue(withIdentifier: "showAlbum", sender: annotation )
             
             //Deselect the annotation here so that it's again selectable when we return from the album view:
