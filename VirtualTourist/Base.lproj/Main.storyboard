@@ -33,7 +33,13 @@
                             <constraint firstItem="H2I-0Y-if7" firstAttribute="bottom" secondItem="gcJ-2R-XIl" secondAttribute="top" id="pk1-kh-lQM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="3Ts-PO-16k"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="3Ts-PO-16k">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="WE5-Uj-waH">
+                            <connections>
+                                <action selector="editPins:" destination="MTR-2f-1eI" id="UE7-wq-b66"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapview" destination="H2I-0Y-if7" id="ZzV-pA-of0"/>
                         <segue destination="dM2-v4-dip" kind="show" identifier="showAlbum" id="i1D-dw-Vc0"/>

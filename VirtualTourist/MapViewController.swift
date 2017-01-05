@@ -152,6 +152,10 @@ class MapViewController: UIViewController,MKMapViewDelegate,UIGestureRecognizerD
             photosVC.pin = FlickrUtil.toPin(sender as! MKAnnotation, pin)
         }
     }
+    @IBOutlet weak var deletePinView: UILabel!
+    @IBAction func editPins(_ sender: Any) {
+        //deletePinView
+    }
     
 
 }
